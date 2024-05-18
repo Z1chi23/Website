@@ -1,0 +1,57 @@
+﻿@page
+@model ContactModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h2>Contact Us</h2>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="ContactForm.Name"></label>
+        <input asp-for="ContactForm.Name" class="form-control" />
+        <span asp-validation-for="ContactForm.Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ContactForm.Email"></label>
+        <input asp-for="ContactForm.Email" class="form-control" />
+        <span asp-validation-for="ContactForm.Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ContactForm.Message"></label>
+        <textarea asp-for="ContactForm.Message" class="form-control"></textarea>
+        <span asp-validation-for="ContactForm.Message" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
+
+<div id="map" style="height: 400px;"></div>
+
+<!-- Include Leaflet CSS and JavaScript -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    function initMap() {
+        var location = [40.785091, -73.968285];  // Coordinates for Central Park, New York
+        var map = L.map('map').setView(location, 15);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker(location).addTo(map)
+            .bindPopup('Foodie')
+            .openPopup();
+    }
+
+    // Initialize the map
+    document.addEventListener('DOMContentLoaded', function () {
+        initMap();
+    });
+</script>
+
+<partial name="_ValidationScriptsPartial" />
