@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using Website.Data;
 using Microsoft.AspNetCore.Identity;
+using Website.Areas.Identity.Data;
 //using Website.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
