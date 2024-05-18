@@ -1,12 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Website.Model;
 using Website.Models;
 
 namespace Website.Data
 {
-    public class AppDBContext : DbContext
+    public class AppDBContext : IdentityDbContext<IdentityUser>
     {
-        // Constructor
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
         }
@@ -16,5 +17,7 @@ namespace Website.Data
 
         // DbSet for Contact
         public DbSet<Contact> Contacts { get; set; }
+
+        // Identity-related DbSets are already included from IdentityDbContext
     }
 }
