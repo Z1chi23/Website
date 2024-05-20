@@ -1,10 +1,131 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Foodie"; // Changed the title to "Foodie"
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    .title-font {
+        font-family: 'Great Vibes', cursive; /* Apply the 'Great Vibes' font */
+    }
+</style>
+
+<!-- Move the title on top of the carousel -->
+<div class="container text-center mt-4">
+    <h1 class="display-4 custom-font title-font">
+        Foodie
+    </h1>
+    <p class="custom-font">
+        Welcome to Foodie, your go-to spot for mouthwatering burgers, crispy fries, and aromatic coffee. Dive into our delicious burgers,
+        savor our crispy fries, and enjoy a cup of our expertly brewed coffee.
+        Join us for a culinary experience that promises to satisfy your cravings and keep you coming back for more.
+    </p>
 </div>
+
+<!-- Carousel -->
+<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <!-- Carousel slides -->
+    <div class="carousel-inner">
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+            <img src="~/HomeImage/1.jpg" class="d-block w-100" alt="Image 1">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Caption 1</h5>
+                <p>Description 1</p>
+            </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+            <img src="~/HomeImage/2.png" class="d-block w-100" alt="Image 2">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Caption 2</h5>
+                <p>Description 2</p>
+            </div>
+        </div>
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+            <img src="~/HomeImage/3.jpg" class="d-block w-100" alt="Image 3">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Caption 3</h5>
+                <p>Description 3</p>
+            </div>
+        </div>
+    </div>
+    <!-- Carousel controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- Mini boxes with image and description -->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img src="~/HomeImage/4.jpg" class="card-img-top" alt="Mini Image 1">
+                <div class="card-body">
+                    <h5 class="card-title">Burgers</h5>
+                    <p class="card-text">burgers are carefully crafted using only the finest ingredients,
+                        ensuring each bite is bursting with flavor and satisfaction..</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="~/HomeImage/5.jpg" class="card-img-top" alt="Mini Image 2">
+                <div class="card-body">
+                    <h5 class="card-title">Fries</h5>
+                    <p class="card-text">fries are made fresh to order, guaranteeing that crispy, golden perfection with every bite.
+                        Using only the best potatoes and cooked to crispy perfection.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="~/HomeImage/7.jpg" class="card-img-top" alt="Mini Image 3">
+                <div class="card-body">
+                    <h5 class="card-title">Coffee</h5>
+                    <p class="card-text">we take pride in our expertly brewed beverages. Sourced from the finest beans and brewed to perfection,
+                        our coffee is the perfect pick-me-up any time of day.
+                        From rich espressos to creamy lattes, we have something to satisfy every coffee lover's craving..</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Description box -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Menu</h5>
+                    <p class="card-text">
+                        At Foodie, we celebrate the delicious trio of fries, burgers, and coffee, offering a menu crafted with passion and dedication.
+                        Enjoy mouthwatering burgers made with the finest ingredients, complemented by crispy, golden fries cooked to perfection. Don't forget to savor a cup of our expertly brewed coffee, made with the finest beans. Join us for a memorable dining experience where flavor and comfort meet in every bite.
+                        Welcome to Foodie, where fries, burgers, and coffee are served with a smile.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Image -->
+        <div class="col-md-6">
+            <img src="~/HomeImage/6.jpg" class="img-fluid" alt="Side Image">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Activate Carousel
+        $('#myCarousel').carousel();
+    </script>
+}

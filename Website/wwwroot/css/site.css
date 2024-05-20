@@ -28,5 +28,25 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: #f2e9ff;
+    margin-bottom: 60px;
 }
+
+.custom-font {
+    font-family: 'Arial', sans-serif; /* Change 'Arial' to the desired font family */
+}
+
+.footer {
+    background-color: #f2e9ff; /* Dark gray background color */
+    color: #fff; /* Text color for the footer */
+}
+
+.container {
+    background-color: #f2e9ff; /* Light gray background color */
+}
+
+<style >
+.custom-font {
+    font-family: 'Helvetica', sans-serif; /* Change 'Helvetica' to your desired font family */
+}
+</style >

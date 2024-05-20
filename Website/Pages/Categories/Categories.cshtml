@@ -1,4 +1,5 @@
-﻿﻿@page
+﻿﻿
+@page
 @model Website.Pages.Categories.IndexModel
 @{
 }
@@ -34,7 +35,7 @@
 			{
 				<tr>
 					<td width="50%">@obj.Name</td>
-					<td width="30%">@obj.DisplayOrder</td>
+					<td width="30%">@obj.Id</td>
 					<td>
 						<div class="w-75 btn-group" role="group">
 						<a asp-page="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
