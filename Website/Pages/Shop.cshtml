@@ -1,0 +1,18 @@
+﻿@page
+@model Website.Pages.ShopModel
+
+@{
+    ViewData["Title"] = "Shop";
+}
+
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="row">
+            <div class="col">
+                <vc:categories />
+                <partial name="_NotificationPartial" />
+                <!-- Your Shop page content here -->
+            </div>
+        </div>
+    </main>
+</div>

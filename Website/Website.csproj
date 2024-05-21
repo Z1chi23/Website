@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\Admin\" />
-    <Folder Include="Pages\Checkout\" />
   </ItemGroup>
 
 </Project>

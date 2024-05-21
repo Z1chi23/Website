@@ -35,5 +35,8 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDBContext>();
+SeedData.SeedDatabase(context);
+
 app.Run();
 
