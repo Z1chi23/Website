@@ -1,18 +1,41 @@
 ﻿@page
 @model Website.Pages.ShopModel
-
 @{
     ViewData["Title"] = "Shop";
 }
 
-<div class="container">
-    <main role="main" class="pb-3">
-        <div class="row">
-            <div class="col">
-                <vc:categories />
-                <partial name="_NotificationPartial" />
-                <!-- Your Shop page content here -->
-            </div>
-        </div>
-    </main>
-</div>
+<h2>Shop</h2>
+
+@foreach (var product in Model.Products)
+{
+    <div>
+        <h4>@product.Name - $@product.Price</h4>
+        <p>@product.Description</p>
+        <img src="@product.image" alt="@product.Name" width="100" height="100">
+        <form method="post" asp-page-handler="AddToCart">
+            <input type="hidden" name="productId" value="@product.Id" />
+            <button type="submit">Add to Cart</button>
+        </form>
+    </div>
+}
+
+<h3>Shopping Cart</h3>
+@if (Model.ShoppingCart.Any())
+{
+    <ul>
+        @foreach (var item in Model.ShoppingCart)
+        {
+            <li>
+                @item.ProductName - $@item.Price - Quantity: @item.Quantity
+                <form method="post" asp-page-handler="RemoveFromCart">
+                    <input type="hidden" name="productId" value="@item.ProductId" />
+                    <button type="submit">Remove</button>
+                </form>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Your shopping cart is empty.</p>
+}

@@ -21,7 +21,7 @@ namespace Website.Data
                             Name = "Apples",
                             Slug = "apples",
                             Description = "Juicy apples",
-                            Price = 1.50M,
+                            Price = 10.00M,
                             Category = fruits,
                             image = "apples.jpg"
                         },
@@ -30,7 +30,7 @@ namespace Website.Data
                             Name = "Bananas",
                             Slug = "bananas",
                             Description = "Fresh bananas",
-                            Price = 3M,
+                            Price = 4M,
                             Category = fruits,
                             image = "bananas.jpg"
                         },
