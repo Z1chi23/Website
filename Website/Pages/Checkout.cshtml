@@ -1,0 +1,28 @@
+﻿@page
+@model Website.Pages.CheckoutModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h2>Checkout</h2>
+
+@if (Model.ShoppingCart.Any())
+{
+    <ul>
+        @foreach (var product in Model.ShoppingCart)
+        {
+            <li>
+                @product.Name - $@product.Price
+            </li>
+        }
+    </ul>
+
+    <form method="post">
+        <button type="submit">Complete Purchase</button>
+    </form>
+}
+else
+{
+    <p>Your shopping cart is empty.</p>
+}

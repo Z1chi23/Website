@@ -18,7 +18,6 @@ namespace Website.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Contact> Contacts { get; set; }
-        public DbSet<CartItem> CartItems { get; set; } // Add DbSet for CartItem
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,16 +31,6 @@ namespace Website.Data
                 .WithMany()
                 .HasForeignKey(p => p.CategoryId)
                 .IsRequired();
-
-            // Configuration for CartItem entity
-            modelBuilder.Entity<CartItem>(entity =>
-            {
-                entity.HasKey(ci => ci.ProductId); // Assuming ProductId is the primary key
-                entity.Property(ci => ci.ProductName).IsRequired().HasMaxLength(255);
-                entity.Property(ci => ci.Price).IsRequired().HasColumnType("decimal(18, 2)"); // Specify SQL server column type for Price
-                entity.Property(ci => ci.Quantity).IsRequired();
-                entity.Property(ci => ci.Image).IsRequired().HasMaxLength(255);
-            });
         }
     }
 

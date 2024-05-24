@@ -19,12 +19,12 @@ namespace Website.Pages
 
         public List<Product> Products { get; set; }
 
-        public List<CartItem> ShoppingCart
+        public List<Product> ShoppingCart
         {
             get
             {
-                var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("ShoppingCart");
-                return cart ?? new List<CartItem>();
+                var cart = HttpContext.Session.GetObjectFromJson<List<Product>>("ShoppingCart");
+                return cart ?? new List<Product>();
             }
             set
             {
@@ -32,9 +32,14 @@ namespace Website.Pages
             }
         }
 
+        [BindProperty(SupportsGet = true)]
+        public string SearchQuery { get; set; }
+
         public void OnGet()
         {
-            Products = _context.Products.ToList();
+            Products = string.IsNullOrEmpty(SearchQuery)
+                ? _context.Products.ToList()
+                : _context.Products.Where(p => p.Name.Contains(SearchQuery)).ToList();
         }
 
         public IActionResult OnPostAddToCart(int productId)
@@ -44,24 +49,7 @@ namespace Website.Pages
             if (product != null)
             {
                 var cart = ShoppingCart;
-                var cartItem = cart.SingleOrDefault(item => item.ProductId == productId);
-
-                if (cartItem == null)
-                {
-                    cart.Add(new CartItem
-                    {
-                        ProductId = product.Id,
-                        ProductName = product.Name,
-                        Price = product.Price,
-                        Quantity = 1,
-                        Image = product.image
-                    });
-                }
-                else
-                {
-                    cartItem.Quantity++;
-                }
-
+                cart.Add(product);
                 ShoppingCart = cart;
             }
 
@@ -71,14 +59,13 @@ namespace Website.Pages
         public IActionResult OnPostRemoveFromCart(int productId)
         {
             var cart = ShoppingCart;
-            var itemToRemove = cart.SingleOrDefault(item => item.ProductId == productId);
+            var itemToRemove = cart.SingleOrDefault(item => item.Id == productId);
 
             if (itemToRemove != null)
             {
                 cart.Remove(itemToRemove);
+                ShoppingCart = cart;
             }
-
-            ShoppingCart = cart;
 
             return RedirectToPage();
         }

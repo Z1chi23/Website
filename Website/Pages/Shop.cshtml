@@ -6,18 +6,25 @@
 
 <h2>Shop</h2>
 
-@foreach (var product in Model.Products)
-{
-    <div>
-        <h4>@product.Name - $@product.Price</h4>
-        <p>@product.Description</p>
-        <img src="@product.image" alt="@product.Name" width="100" height="100">
-        <form method="post" asp-page-handler="AddToCart">
-            <input type="hidden" name="productId" value="@product.Id" />
-            <button type="submit">Add to Cart</button>
-        </form>
-    </div>
-}
+<form method="get">
+    <input type="text" name="searchQuery" value="@Model.SearchQuery" placeholder="Search products..." />
+    <button type="submit">Search</button>
+</form>
+
+<div class="product-list">
+    @foreach (var product in Model.Products)
+    {
+        <div class="product-item">
+            <h4>@product.Name - $@product.Price</h4>
+            <p>@product.Description</p>
+            <img src="@product.image" alt="@product.Name" width="100" height="100">
+            <form method="post" asp-page-handler="AddToCart">
+                <input type="hidden" name="productId" value="@product.Id" />
+                <button type="submit">Add to Cart</button>
+            </form>
+        </div>
+    }
+</div>
 
 <h3>Shopping Cart</h3>
 @if (Model.ShoppingCart.Any())
@@ -26,10 +33,10 @@
         @foreach (var item in Model.ShoppingCart)
         {
             <li>
-                @item.ProductName - $@item.Price - Quantity: @item.Quantity
+                @item.Name - $@item.Price
                 <form method="post" asp-page-handler="RemoveFromCart">
-                    <input type="hidden" name="productId" value="@item.ProductId" />
-                    <button type="submit">Remove</button>
+                    <input type="hidden" name="productId" value="@item.Id" />
+                    <button type="submit">Remove from Cart</button>
                 </form>
             </li>
         }
@@ -39,3 +46,24 @@ else
 {
     <p>Your shopping cart is empty.</p>
 }
+
+<style>
+    .product-list {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .product-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px;
+        width: 200px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+        .product-item img {
+            display: block;
+            margin: 0 auto 10px;
+        }
+</style>
