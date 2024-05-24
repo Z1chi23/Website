@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Net.Mail;
 using Website.Models;
 using Website.Data;
 
@@ -8,11 +7,11 @@ namespace Website.Pages.Contact
 {
     public class ContactModel : PageModel
     {
-        private readonly AppDBContext _context; // Declaring _context as a private field
+        private readonly AppDBContext _context;
 
         public ContactModel(AppDBContext context)
         {
-            _context = context; // Assigning the injected AppDBContext to _context
+            _context = context;
         }
 
         [BindProperty]
@@ -28,16 +27,9 @@ namespace Website.Pages.Contact
         {
             if (ModelState.IsValid)
             {
-                var message = new MailMessage();
-                message.To.Add(new MailAddress("recipient@example.com"));  // Replace with actual recipient email address
-                message.From = new MailAddress(ContactForm.Email);
-                message.Subject = "Contact Form Message";
-                message.Body = $"Name: {ContactForm.Name}\nEmail: {ContactForm.Email}\nMessage: {ContactForm.Message}";
-
-                using (var smtpClient = new SmtpClient("smtp.example.com"))  // Replace with actual SMTP server
-                {
-                    smtpClient.Send(message);
-                }
+                // Save the contact form message to the database
+                _context.Contacts.Add(ContactForm);
+                _context.SaveChanges();
 
                 SuccessMessage = "Your message has been sent!";
                 ModelState.Clear();
