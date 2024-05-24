@@ -1,23 +1,30 @@
 ﻿@page
 @model Website.Pages.CheckoutModel
 
-@{
-    ViewData["Title"] = "Checkout";
-}
-
 <h2>Checkout</h2>
 
 @if (Model.ShoppingCart.Any())
 {
     <ul>
-        @foreach (var product in Model.ShoppingCart)
+        @foreach (var item in Model.ShoppingCart)
         {
             <li>
-                @product.Name - $@product.Price
+                @item.Name - $@item.Price - Quantity: @item.Quantity
+                <form method="post" asp-page-handler="AddQuantity">
+                    <input type="hidden" name="productId" value="@item.Id" />
+                    <button type="submit">Add</button>
+                </form>
+                <form method="post" asp-page-handler="RemoveQuantity">
+                    <input type="hidden" name="productId" value="@item.Id" />
+                    <button type="submit">Remove</button>
+                </form>
+                <form method="post" asp-page-handler="RemoveFromCart">
+                    <input type="hidden" name="productId" value="@item.Id" />
+                    <button type="submit">Remove from Cart</button>
+                </form>
             </li>
         }
     </ul>
-
     <form method="post">
         <button type="submit">Complete Purchase</button>
     </form>

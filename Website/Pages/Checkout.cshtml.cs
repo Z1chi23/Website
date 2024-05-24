@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using Website.Model;
 
@@ -15,10 +14,48 @@ namespace Website.Pages
                 var cart = HttpContext.Session.GetObjectFromJson<List<Product>>("ShoppingCart");
                 return cart ?? new List<Product>();
             }
+            set
+            {
+                HttpContext.Session.SetObjectAsJson("ShoppingCart", value);
+            }
         }
 
-        public void OnGet()
+        public IActionResult OnPostAddQuantity(int productId)
         {
+            var cart = ShoppingCart;
+            var item = cart.Find(p => p.Id == productId);
+            if (item != null)
+            {
+                item.Quantity++;
+                ShoppingCart = cart;
+            }
+            return RedirectToPage();
+        }
+
+        public IActionResult OnPostRemoveQuantity(int productId)
+        {
+            var cart = ShoppingCart;
+            var item = cart.Find(p => p.Id == productId);
+            if (item != null && item.Quantity > 1)
+            {
+                item.Quantity--;
+                ShoppingCart = cart;
+            }
+            return RedirectToPage();
+        }
+
+        public IActionResult OnPostRemoveFromCart(int productId)
+        {
+            var cart = ShoppingCart;
+            var itemToRemove = cart.Find(item => item.Id == productId);
+
+            if (itemToRemove != null)
+            {
+                cart.Remove(itemToRemove);
+                ShoppingCart = cart;
+            }
+
+            return RedirectToPage();
         }
 
         public IActionResult OnPost()

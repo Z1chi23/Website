@@ -24,5 +24,7 @@ namespace Website.Model
 
         public string image { get; set; }
 
+        public int Quantity { get; set; }
+
     }
 }
