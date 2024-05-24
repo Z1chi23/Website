@@ -1,12 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
+using Website.Data;
 using Website.Model;
 
 namespace Website.Pages
 {
     public class CheckoutModel : PageModel
     {
+        private readonly AppDBContext _context;
+
+        public CheckoutModel(AppDBContext context)
+        {
+            _context = context;
+        }
+
         public List<Product> ShoppingCart
         {
             get
@@ -61,9 +70,24 @@ namespace Website.Pages
         public IActionResult OnPost()
         {
             // Handle the purchase logic here (e.g., saving order to the database)
+            foreach (var item in ShoppingCart)
+            {
+                var salesHistory = new SalesHistory
+                {
+                    ProductId = item.Id,
+                    Quantity = item.Quantity,
+                    TotalPrice = item.Price * item.Quantity,
+                    SaleDate = DateTime.Now
+                    // You may add more properties as needed
+                };
+                _context.SalesHistory.Add(salesHistory);
+            }
 
             // Clear the shopping cart
             HttpContext.Session.Remove("ShoppingCart");
+
+            // Save changes to the database
+            _context.SaveChanges();
 
             // Redirect to a confirmation page or the homepage
             return RedirectToPage("/Index");

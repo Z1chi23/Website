@@ -26,27 +26,6 @@
     }
 </div>
 
-<h3>Shopping Cart</h3>
-@if (Model.ShoppingCart.Any())
-{
-    <ul>
-        @foreach (var item in Model.ShoppingCart)
-        {
-            <li>
-                @item.Name - $@item.Price
-                <form method="post" asp-page-handler="RemoveFromCart">
-                    <input type="hidden" name="productId" value="@item.Id" />
-                    <button type="submit">Remove from Cart</button>
-                </form>
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>Your shopping cart is empty.</p>
-}
-
 <style>
     .product-list {
         display: flex;

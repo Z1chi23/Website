@@ -1,6 +1,10 @@
 ﻿@page
 @model Website.Pages.CheckoutModel
 
+<div id="popupMessage" style="display: none;">
+    <p>Thank you for your purchase!</p>
+</div>
+
 <h2>Checkout</h2>
 
 @if (Model.ShoppingCart.Any())
@@ -25,7 +29,7 @@
             </li>
         }
     </ul>
-    <form method="post">
+    <form method="post" onsubmit="showPopup()">
         <button type="submit">Complete Purchase</button>
     </form>
 }
@@ -33,3 +37,19 @@ else
 {
     <p>Your shopping cart is empty.</p>
 }
+
+<script>
+    function showPopup() {
+        // Show the popup message
+        var popup = document.getElementById('popupMessage');
+        popup.style.display = 'block';
+
+        // Prevent the default form submission
+        event.preventDefault();
+
+        // Submit the form after a delay (e.g., 2 seconds)
+        setTimeout(function () {
+            document.querySelector('form').submit();
+        }, 2000);
+    }
+</script>

@@ -18,11 +18,13 @@ namespace Website.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<SalesHistory> SalesHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            // Apply configuration for ApplicationUser
             modelBuilder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
 
             // Define the relationship between Product and Category entities
@@ -31,6 +33,11 @@ namespace Website.Data
                 .WithMany()
                 .HasForeignKey(p => p.CategoryId)
                 .IsRequired();
+
+            // Specify SQL Server column type for TotalPrice property in SalesHistory entity
+            modelBuilder.Entity<SalesHistory>()
+                .Property(e => e.TotalPrice)
+                .HasColumnType("decimal(18,2)");
         }
     }
 
