@@ -26,5 +26,8 @@ namespace Website.Model
 
         public int Quantity { get; set; }
 
+        [NotMapped] // This property will not be mapped to the database
+        public IFormFile Image { get; set; } // Use this property for file upload
+
     }
 }

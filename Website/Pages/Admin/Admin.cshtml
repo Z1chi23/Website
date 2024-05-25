@@ -5,31 +5,66 @@
     ViewData["Title"] = "Admin";
 }
 
-<h2>Admin - Manage Products</h2>
+<h2>Add New Item</h2>
 
-<a asp-page="Create">Create New Product</a>
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label>Name:</label>
+        <input asp-for="NewItem.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Description:</label>
+        <input asp-for="NewItem.Description" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Price:</label>
+        <input asp-for="NewItem.Price" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Image:</label>
+        <input type="file" name="image" class="form-control-file" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Add Item</button>
+    </div>
+</form>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model.Products)
-        {
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.Price</td>
-                <td>
-                    <a asp-page="Edit" asp-route-id="@product.Id">Edit</a> |
-                    <form method="post" asp-page-handler="Delete" asp-route-id="@product.Id" onsubmit="return confirm('Are you sure you want to delete this product?');">
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
+<h2>Edit Item</h2>
+
+<!-- Add/Edit/Delete forms for existing items -->
+@foreach (var item in Model.Items)
+{
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="@item.Id" />
+        <div class="form-group">
+            <label>Name:</label>
+            <input name="name" value="@item.Name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Description:</label>
+            <input name="description" value="@item.Description" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Price:</label>
+            <input name="price" value="@item.Price" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Image:</label>
+            <input type="file" name="image" class="form-control-file" />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="button" class="btn btn-danger" onclick="confirmDelete(@item.Id)">Delete</button>
+        </div>
+    </form>
+}
+
+<script>
+    function confirmDelete(id) {
+        if (confirm("Are you sure you want to delete this item?")) {
+            // Perform delete action here or submit a form with item id
+            // You can use AJAX to perform delete action without page reload
+            console.log("Item with ID " + id + " will be deleted.");
         }
-    </tbody>
-</table>
+    }
+</script>
