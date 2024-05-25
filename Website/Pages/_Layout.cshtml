@@ -24,28 +24,26 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Contact/Contact">Contact</a>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="Shop">Shop</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Shop">Shop</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Checkout">Checkout</a>
                         </li>
-
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Admin">Admin</a>
+                            </li>
                     </ul>
-                    <partial name="_LoginPartial"/>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
 
- @RenderBody()
-                </div>
-            </div>
-            
-        </main>
-    </div>
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
 
     <footer class="border-top footer text-muted">
         <div class="container">
