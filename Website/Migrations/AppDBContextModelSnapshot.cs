@@ -249,7 +249,7 @@ namespace Website.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Website.Model.Product", b =>
@@ -287,7 +287,7 @@ namespace Website.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Website.Model.SalesHistory", b =>
@@ -314,7 +314,7 @@ namespace Website.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("SalesHistory");
+                    b.ToTable("SalesHistory", (string)null);
                 });
 
             modelBuilder.Entity("Website.Models.Contact", b =>
@@ -339,7 +339,7 @@ namespace Website.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("Website.Areas.Identity.Data.ApplicationUser", b =>

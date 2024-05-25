@@ -4,7 +4,7 @@
 
 <h2>Edit Product</h2>
 
-<form method="post" enctype="multipart/form-data">
+<form method="post">
     <input type="hidden" asp-for="Product.Id" />
     <div class="form-group">
         <label asp-for="Product.Name"></label>
@@ -12,26 +12,16 @@
         <span asp-validation-for="Product.Name" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Product.Price"></label>
-        <input asp-for="Product.Price" class="form-control" />
-        <span asp-validation-for="Product.Price" class="text-danger"></span>
-    </div>
-    <div class="form-group">
         <label asp-for="Product.Description"></label>
         <textarea asp-for="Product.Description" class="form-control"></textarea>
         <span asp-validation-for="Product.Description" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Product.CategoryId"></label>
-        <select asp-for="Product.CategoryId" asp-items="Model.CategoryOptions" class="form-control"></select>
-        <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+        <label asp-for="Product.Price"></label>
+        <input asp-for="Product.Price" class="form-control" />
+        <span asp-validation-for="Product.Price" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Image"></label>
-        <input asp-for="Image" type="file" class="form-control" />
-        <span asp-validation-for="Image" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
+    <!-- Add other product fields here -->
 
-<partial name="_ValidationScriptsPartial" />
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>

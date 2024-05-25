@@ -1,16 +1,11 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.IO;
-using System.Threading.Tasks;
 using Website.Data;
 using Website.Model;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Website.Pages.Admin
 {
-    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly AppDBContext _context;
@@ -23,14 +18,8 @@ namespace Website.Pages.Admin
         [BindProperty]
         public Product Product { get; set; }
 
-        [BindProperty]
-        public IFormFile Image { get; set; }
-
-        public SelectList Categories { get; set; }
-
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {
-            Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
             return Page();
         }
 
@@ -41,23 +30,10 @@ namespace Website.Pages.Admin
                 return Page();
             }
 
-            if (Image != null)
-            {
-                var fileName = Path.GetFileName(Image.FileName);
-                var filePath = Path.Combine("wwwroot/uploads", fileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await Image.CopyToAsync(fileStream);
-                }
-
-                Product.image = fileName;
-            }
-
             _context.Products.Add(Product);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("Admin");
+            return RedirectToPage("./Admin");
         }
     }
 }
