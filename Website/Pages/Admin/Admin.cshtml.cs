@@ -42,13 +42,13 @@ namespace Website.Pages.Admin
             if (NewItem.Image != null && NewItem.Image.Length > 0)
             {
                 var fileName = Path.GetFileName(NewItem.Image.FileName);
-                var filePath = Path.Combine(_environment.WebRootPath, "uploads", fileName);
+                var filePath = Path.Combine(_environment.WebRootPath, "HomeImage", fileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await NewItem.Image.CopyToAsync(stream);
                 }
 
-                NewItem.image = "/uploads/" + fileName; // Use the 'image' property to store the image path
+                NewItem.image = "" + fileName; // Use the 'image' property to store the image path
             }
 
             _context.Products.Add(NewItem);
