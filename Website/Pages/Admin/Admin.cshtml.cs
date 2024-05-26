@@ -70,5 +70,38 @@ namespace Website.Pages.Admin
 
             return RedirectToPage("/Admin/Admin");
         }
+
+        public async Task<IActionResult> OnPostEditAsync(int id, [Bind("Id,Name,Description,Price,CategoryId")] Product product)
+        {
+            var productToUpdate = await _context.Products.FindAsync(id);
+
+            if (productToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            if (await TryUpdateModelAsync<Product>(
+                productToUpdate,
+                "product",
+                p => p.Name, p => p.Description, p => p.Price, p => p.CategoryId))
+            {
+                if (product.Image != null && product.Image.Length > 0)
+                {
+                    var fileName = Path.GetFileName(product.Image.FileName);
+                    var filePath = Path.Combine(_environment.WebRootPath, "HomeImage", fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await product.Image.CopyToAsync(stream);
+                    }
+
+                    productToUpdate.image = fileName;
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToPage("/Admin/Admin");
+            }
+
+            return Page();
+        }
     }
 }

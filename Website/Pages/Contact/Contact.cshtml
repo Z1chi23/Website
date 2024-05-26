@@ -11,17 +11,17 @@
 
 <form method="post">
     <div class="form-group">
-        <label asp-for="ContactForm.Name"></label>
+        <label asp-for="ContactForm.Name" class="control-label"></label>
         <input asp-for="ContactForm.Name" class="form-control" />
         <span asp-validation-for="ContactForm.Name" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="ContactForm.Email"></label>
+        <label asp-for="ContactForm.Email" class="control-label"></label>
         <input asp-for="ContactForm.Email" class="form-control" />
         <span asp-validation-for="ContactForm.Email" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="ContactForm.Message"></label>
+        <label asp-for="ContactForm.Message" class="control-label"></label>
         <textarea asp-for="ContactForm.Message" class="form-control"></textarea>
         <span asp-validation-for="ContactForm.Message" class="text-danger"></span>
     </div>
