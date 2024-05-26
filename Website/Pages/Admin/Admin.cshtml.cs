@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,12 +23,13 @@ namespace Website.Pages.Admin
 
         [BindProperty]
         public Product NewItem { get; set; }
-
-        public IQueryable<Category> Categories { get; set; } // Add Categories property
+        public IQueryable<Category> Categories { get; set; }
+        public IQueryable<Product> Products { get; set; }
 
         public async Task OnGetAsync()
         {
-            Categories = _context.Categories; // Retrieve categories from the database
+            Categories = _context.Categories;
+            Products = _context.Products.Include(p => p.Category);
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -38,7 +39,6 @@ namespace Website.Pages.Admin
                 return Page();
             }
 
-            // Handle file upload
             if (NewItem.Image != null && NewItem.Image.Length > 0)
             {
                 var fileName = Path.GetFileName(NewItem.Image.FileName);
@@ -48,10 +48,24 @@ namespace Website.Pages.Admin
                     await NewItem.Image.CopyToAsync(stream);
                 }
 
-                NewItem.image = "" + fileName; // Use the 'image' property to store the image path
+                NewItem.image = fileName;
             }
 
             _context.Products.Add(NewItem);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("/Admin/Admin");
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("/Admin/Admin");
