@@ -12,7 +12,7 @@ namespace Website.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "SalesHistory",
+                name: "SalesHistories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -24,9 +24,9 @@ namespace Website.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SalesHistory", x => x.Id);
+                    table.PrimaryKey("PK_SalesHistories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SalesHistory_Products_ProductId",
+                        name: "FK_SalesHistories_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -34,8 +34,8 @@ namespace Website.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SalesHistory_ProductId",
-                table: "SalesHistory",
+                name: "IX_SalesHistories_ProductId",
+                table: "SalesHistories",
                 column: "ProductId");
         }
 
@@ -43,7 +43,7 @@ namespace Website.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SalesHistory");
+                name: "SalesHistories");
         }
     }
 }

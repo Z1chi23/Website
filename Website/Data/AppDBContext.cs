@@ -18,7 +18,7 @@ namespace Website.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Contact> Contacts { get; set; }
-        public DbSet<SalesHistory> SalesHistory { get; set; }
+        public DbSet<SalesHistory> SalesHistories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,13 @@ namespace Website.Data
             modelBuilder.Entity<SalesHistory>()
                 .Property(e => e.TotalPrice)
                 .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<SalesHistory>()
+                .HasOne(sh => sh.Product)
+                .WithMany()
+                .HasForeignKey(sh => sh.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 

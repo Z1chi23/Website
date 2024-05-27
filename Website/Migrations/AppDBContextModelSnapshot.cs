@@ -249,36 +249,7 @@ namespace Website.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Website.Model.Item", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Items");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Website.Model.Product", b =>
@@ -316,7 +287,7 @@ namespace Website.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Website.Model.SalesHistory", b =>
@@ -343,7 +314,7 @@ namespace Website.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("SalesHistory");
+                    b.ToTable("SalesHistories", (string)null);
                 });
 
             modelBuilder.Entity("Website.Models.Contact", b =>
@@ -368,7 +339,7 @@ namespace Website.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("Website.Areas.Identity.Data.ApplicationUser", b =>
@@ -437,17 +408,6 @@ namespace Website.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Website.Model.Item", b =>
-                {
-                    b.HasOne("Website.Model.Product", "Product")
-                        .WithMany("Items")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Website.Model.Product", b =>
                 {
                     b.HasOne("Website.Model.Category", "Category")
@@ -468,11 +428,6 @@ namespace Website.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Website.Model.Product", b =>
-                {
-                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

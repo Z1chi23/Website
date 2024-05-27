@@ -42,14 +42,17 @@ namespace Website.Pages
                 : _context.Products.Where(p => p.Name.Contains(SearchQuery)).ToList();
         }
 
-        public IActionResult OnPostAddToCart(int productId)
+        public IActionResult OnPostAddToCart(int productId, int quantity)
         {
             var product = _context.Products.Find(productId);
 
             if (product != null)
             {
                 var cart = ShoppingCart;
-                cart.Add(product);
+                for (int i = 0; i < quantity; i++) // Add the product based on the specified quantity
+                {
+                    cart.Add(product);
+                }
                 ShoppingCart = cart;
             }
 

@@ -12,7 +12,7 @@ using Website.Data;
 namespace Website.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240524083712_SalesHistory")]
+    [Migration("20240527043720_SalesHistory")]
     partial class SalesHistory
     {
         /// <inheritdoc />
@@ -317,7 +317,7 @@ namespace Website.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("SalesHistory");
+                    b.ToTable("SalesHistories");
                 });
 
             modelBuilder.Entity("Website.Models.Contact", b =>

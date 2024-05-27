@@ -1,4 +1,6 @@
-﻿namespace Website.Model
+﻿using System;
+
+namespace Website.Model
 {
     public class SalesHistory
     {
@@ -8,6 +10,5 @@
         public int Quantity { get; set; }
         public decimal TotalPrice { get; set; }
         public DateTime SaleDate { get; set; }
-        // Other properties as needed
     }
 }

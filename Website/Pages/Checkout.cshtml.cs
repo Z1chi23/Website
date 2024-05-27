@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using Website.Data;
@@ -10,87 +12,60 @@ namespace Website.Pages
     public class CheckoutModel : PageModel
     {
         private readonly AppDBContext _context;
+        private readonly ILogger<CheckoutModel> _logger;
 
-        public CheckoutModel(AppDBContext context)
+        public CheckoutModel(AppDBContext context, ILogger<CheckoutModel> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
-        public List<Product> ShoppingCart
+        public List<Product> ShoppingCart { get; set; }
+
+        public IActionResult OnGet()
         {
-            get
-            {
-                var cart = HttpContext.Session.GetObjectFromJson<List<Product>>("ShoppingCart");
-                return cart ?? new List<Product>();
-            }
-            set
-            {
-                HttpContext.Session.SetObjectAsJson("ShoppingCart", value);
-            }
-        }
-
-        public IActionResult OnPostAddQuantity(int productId)
-        {
-            var cart = ShoppingCart;
-            var item = cart.Find(p => p.Id == productId);
-            if (item != null)
-            {
-                item.Quantity++;
-                ShoppingCart = cart;
-            }
-            return RedirectToPage();
-        }
-
-        public IActionResult OnPostRemoveQuantity(int productId)
-        {
-            var cart = ShoppingCart;
-            var item = cart.Find(p => p.Id == productId);
-            if (item != null && item.Quantity > 1)
-            {
-                item.Quantity--;
-                ShoppingCart = cart;
-            }
-            return RedirectToPage();
-        }
-
-        public IActionResult OnPostRemoveFromCart(int productId)
-        {
-            var cart = ShoppingCart;
-            var itemToRemove = cart.Find(item => item.Id == productId);
-
-            if (itemToRemove != null)
-            {
-                cart.Remove(itemToRemove);
-                ShoppingCart = cart;
-            }
-
-            return RedirectToPage();
+            // Retrieve the shopping cart from session
+            ShoppingCart = HttpContext.Session.GetObjectFromJson<List<Product>>("ShoppingCart") ?? new List<Product>();
+            return Page();
         }
 
         public IActionResult OnPost()
         {
-            // Handle the purchase logic here (e.g., saving order to the database)
-            foreach (var item in ShoppingCart)
+            try
             {
-                var salesHistory = new SalesHistory
+                // Retrieve the shopping cart from session
+                ShoppingCart = HttpContext.Session.GetObjectFromJson<List<Product>>("ShoppingCart") ?? new List<Product>();
+
+                // Loop through each item in the shopping cart and add a sales history record
+                foreach (var item in ShoppingCart)
                 {
-                    ProductId = item.Id,
-                    Quantity = item.Quantity,
-                    TotalPrice = item.Price * item.Quantity,
-                    SaleDate = DateTime.Now
-                    // You may add more properties as needed
-                };
-                _context.SalesHistory.Add(salesHistory);
+                    var salesHistory = new SalesHistory
+                    {
+                        ProductId = item.Id,
+                        Quantity = 1, // Assuming quantity is 1 for each item
+                        TotalPrice = item.Price, // Assuming total price is the same as the item price
+                        SaleDate = DateTime.Now
+                    };
+
+                    // Add the new sales history record to the database context
+                    _context.SalesHistories.Add(salesHistory);
+                }
+
+                // Save changes to the database
+                _context.SaveChanges();
+
+                // Clear the shopping cart from session
+                HttpContext.Session.Remove("ShoppingCart");
+
+                // Redirect to a confirmation page or the homepage
+                return RedirectToPage("/Index");
             }
-
-            // Clear the shopping cart
-            HttpContext.Session.Remove("ShoppingCart");
-
-            // Save changes to the database
-            _context.SaveChanges();
-
-            // Redirect to a confirmation page or the homepage
-            return RedirectToPage("/Index");
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred during checkout");
+                // Redirect to an error page
+                return RedirectToPage("/Error");
+            }
         }
     }
 }

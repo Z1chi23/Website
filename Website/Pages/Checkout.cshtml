@@ -13,24 +13,12 @@
         @foreach (var item in Model.ShoppingCart)
         {
             <li>
-                @item.Name - $@item.Price - Quantity: @item.Quantity
-                <form method="post" asp-page-handler="AddQuantity">
-                    <input type="hidden" name="productId" value="@item.Id" />
-                    <button type="submit">Add</button>
-                </form>
-                <form method="post" asp-page-handler="RemoveQuantity">
-                    <input type="hidden" name="productId" value="@item.Id" />
-                    <button type="submit">Remove</button>
-                </form>
-                <form method="post" asp-page-handler="RemoveFromCart">
-                    <input type="hidden" name="productId" value="@item.Id" />
-                    <button type="submit">Remove from Cart</button>
-                </form>
+                @item.Name - $@item.Price
             </li>
         }
     </ul>
-    <form method="post" onsubmit="showPopup()">
-        <button type="submit">Complete Purchase</button>
+    <form method="post">
+        <button type="submit">Confirm Purchase</button>
     </form>
 }
 else
