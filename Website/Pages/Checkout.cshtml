@@ -9,15 +9,19 @@
 
 @if (Model.ShoppingCart.Any())
 {
-    <ul>
+    <ul class="cart-items">
         @foreach (var item in Model.ShoppingCart)
         {
-            <li>
-                @item.Name - $@item.Price
+            <li class="cart-item">
+                <img src="~/HomeImage/@item.image" alt="@item.Name" class="cart-item-image">
+                <div class="cart-item-details">
+                    <h4>@item.Name - $@item.Price</h4>
+                    <p>@item.Description</p>
+                </div>
             </li>
         }
     </ul>
-    <form method="post">
+    <form method="post" onsubmit="showPopup(); return false;">
         <button type="submit">Confirm Purchase</button>
     </form>
 }
@@ -32,12 +36,47 @@ else
         var popup = document.getElementById('popupMessage');
         popup.style.display = 'block';
 
-        // Prevent the default form submission
-        event.preventDefault();
-
         // Submit the form after a delay (e.g., 2 seconds)
         setTimeout(function () {
             document.querySelector('form').submit();
         }, 2000);
     }
 </script>
+
+<style>
+    .cart-items {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .cart-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-item-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-right: 15px;
+    }
+
+    .cart-item-details {
+        flex-grow: 1;
+    }
+
+        .cart-item-details h4 {
+            margin: 0 0 5px 0;
+        }
+
+        .cart-item-details p {
+            margin: 0;
+            color: #666;
+        }
+</style>
