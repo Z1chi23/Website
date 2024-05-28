@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -26,14 +27,26 @@ namespace Website.Pages.Admin
         public IQueryable<Category> Categories { get; set; }
         public IQueryable<Product> Products { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            // Check if the admin is logged in
+            if (HttpContext.Session.GetString("IsAdminLoggedIn") != "true")
+            {
+                return RedirectToPage("/Admin/AdminLogin");
+            }
+
+            // Load categories data
             Categories = _context.Categories;
+
+            // Load products data
             Products = _context.Products.Include(p => p.Category);
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            // Logic for adding a new item...
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -59,6 +72,7 @@ namespace Website.Pages.Admin
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
+            // Logic for deleting an item...
             var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
@@ -73,6 +87,7 @@ namespace Website.Pages.Admin
 
         public async Task<IActionResult> OnPostEditAsync(int id, [Bind("Id,Name,Description,Price,CategoryId")] Product product)
         {
+            // Logic for editing an item...
             var productToUpdate = await _context.Products.FindAsync(id);
 
             if (productToUpdate == null)
